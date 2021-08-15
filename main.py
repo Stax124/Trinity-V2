@@ -127,6 +127,33 @@ async def reload_extension(ctx: Context, extension: str):
 
     await ctx.send(embed=embed)
 
+
+@bot.command(name="reload-all")
+@commands.is_owner()
+async def reload_extension(ctx: Context):
+    all_extensions = ["cogs."+i.replace(".py", "")
+                      for i in os.listdir("cogs") if i.endswith(".py")]
+
+    ok = True
+
+    for extension in all_extensions:
+        try:
+            bot.reload_extension(extension)
+            logging.info(f"{extension} reloaded")
+        except ExtensionNotFound:
+            ok = False
+            logging.error(f"{extension} not found")
+            embed = discord.Embed(
+                color=0xff0000, description=f"{extension} not found")
+            embed.set_author(name="Reload All", icon_url=bot.user.avatar_url)
+
+    if ok:
+        embed = discord.Embed(
+            color=0xffff00, description=f"{extension} reloaded")
+        embed.set_author(name="Reload All", icon_url=bot.user.avatar_url)
+
+    await ctx.send(embed=embed)
+
 if __name__ == "__main__":
     for extension in default_extensions:
         bot.load_extension(extension)
