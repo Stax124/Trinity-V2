@@ -11,9 +11,7 @@ from discord.ext.commands.bot import AutoShardedBot
 from discord.ext.commands.context import Context
 
 
-class Owner(commands.Cog):
-    "Owner commands"
-
+class Work(commands.Cog):
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
@@ -88,4 +86,4 @@ class Owner(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Owner(bot))
+    bot.add_cog(Work(bot))
