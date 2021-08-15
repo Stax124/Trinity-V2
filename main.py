@@ -122,7 +122,7 @@ async def reload_extension(ctx: Context, extension: str):
     except ExtensionNotLoaded:
         logging.error(f"{extension} not found")
         embed = discord.Embed(
-            color=0xffff00, description=f"{extension} exists, but is not loaded")
+            color=0xff0000, description=f"{extension} exists, but is not loaded")
         embed.set_author(name="Unload", icon_url=bot.user.avatar_url)
 
     await ctx.send(embed=embed)
@@ -149,7 +149,7 @@ async def reload_extension(ctx: Context):
 
     if ok:
         embed = discord.Embed(
-            color=0xffff00, description=f"{extension} reloaded")
+            color=0x00ff00, description=f"All extensions reloaded")
         embed.set_author(name="Reload All", icon_url=bot.user.avatar_url)
 
     await ctx.send(embed=embed)
