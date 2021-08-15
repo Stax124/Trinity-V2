@@ -34,27 +34,35 @@ class Owner(commands.Cog):
 
         await self.bot.change_presence(activity=discord.Game(name=f"Shutting down..."), status=Status.offline)
         sys.exit()
-        
+
     @commands.command(name="eval", help="Evaluate string", pass_context=True)
     @commands.is_owner()
     async def eval(self, ctx: Context, *, message: str):
         await ctx.send(eval(message))
-        
+
     @commands.command(name="exec", help="Execute string", pass_context=True)
     @commands.is_owner()
     async def exec(self, ctx: Context, *, message: str):
         await ctx.send(exec(message))
-        
+
     @commands.command(name="tclear", help="Clear terminal screen", pass_context=True)
     @commands.is_owner()
     async def tclear(self, ctx: Context):
         os.system("cls")
-        
+
     @commands.command(name="asyncs-on-hold", help="Show active async jobs", pass_context=True)
     @commands.is_owner()
     async def asyncs_on_hold(self, ctx: Context):
         await ctx.send(self.bot.asyncs_on_hold)
-        
-        
+
+    @commands.command(name="update", help="Update the bot", pass_context=True)
+    @commands.is_owner()
+    async def update_bot(self, ctx: Context):
+        if os.system("git pull") == 0:
+            await ctx.send("Update successful")
+        else:
+            await ctx.send("Update failed")
+
+
 def setup(bot):
     bot.add_cog(Owner(bot))
