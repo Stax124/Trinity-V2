@@ -31,10 +31,12 @@ class Config(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="config-load", help="Load configuration file: config-load", pass_context=True)
+    @commands.command(name="config-load", help="Load configuration file for current server: config-load", pass_context=True)
     @commands.has_permissions(administrator=True)
     async def config_load(self, ctx: Context):
         try:
+            self.bot.configs[ctx.guild.id].load()
+
             embed = discord.Embed(
                 colour=discord.Colour.from_rgb(255, 255, 0),
                 description="✅ Config loaded"
@@ -44,8 +46,6 @@ class Config(commands.Cog):
         except:
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
-
-        self.bot.configs[ctx.guild.id].load()
 
     @commands.command(name="config", help="Output config directory: config <path> [path]...", pass_context=True)
     @commands.has_permissions(administrator=True)
