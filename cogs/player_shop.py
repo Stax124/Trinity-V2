@@ -71,7 +71,7 @@ class PlayerShop(commands.Cog):
 
             except IndexError:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ Bad arguments"
                 )
                 embed.set_author(
@@ -86,8 +86,8 @@ class PlayerShop(commands.Cog):
 
             if not item in self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["inventory"]:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"{item} not found in your inventory"
+                    colour=0xff0000,
+                    description=f"❌ {item} not found in your inventory"
                 )
                 embed.set_author(
                     name="Sell", icon_url=self.bot.user.avatar_url)
@@ -98,7 +98,7 @@ class PlayerShop(commands.Cog):
                 **self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["player_shop"], **{item: price}}
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"✅ Name: `{item}`\nPrice: {price}"
             )
             embed.set_author(name="Sell", icon_url=self.bot.user.avatar_url)
@@ -114,7 +114,7 @@ class PlayerShop(commands.Cog):
         try:
             if ctx.author == user:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description="❌ Can't buy item from yourself"
                 )
                 embed.set_author(name="Player buy",
@@ -132,7 +132,7 @@ class PlayerShop(commands.Cog):
                 cost = self.bot.configs[ctx.guild.id]["players"][user.id]["player_shop"][item]
             except KeyError:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description="❌ Item not found"
                 )
                 embed.set_author(name="Player buy",
@@ -151,7 +151,7 @@ class PlayerShop(commands.Cog):
                 del self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"][item]
 
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0x00ff00,
                     description=f"✅ Bought {item} for {cost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']} and item was added to your inventory\nTrading discount: `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['trading']*self.bot.configs[ctx.guild.id]['trading_rate']*100}%`".replace(
                         ",", " ")
                 )
@@ -159,7 +159,7 @@ class PlayerShop(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description="❌ Not enought money"
                 )
                 embed.set_author(name="Player buy",
@@ -184,7 +184,7 @@ class PlayerShop(commands.Cog):
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["player_shop"][item]
             except KeyError:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description="❌ Item not found"
                 )
                 embed.set_author(name="Player retrieve",
@@ -194,7 +194,7 @@ class PlayerShop(commands.Cog):
 
             del self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["player_shop"][item]
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description="✅ Item removed from shop"
             )
             embed.set_author(name="Player retrieve",

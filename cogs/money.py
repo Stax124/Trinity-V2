@@ -39,7 +39,7 @@ class Money(commands.Cog):
                     ",", " ")
                 if index == 30:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
+                        colour=0x00ff00,
                         description=msg
                     )
                     embed.set_author(name="Leaderboard",
@@ -51,7 +51,7 @@ class Money(commands.Cog):
                     index += 1
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=msg
             )
             embed.set_author(name="Leaderboard",
@@ -72,23 +72,23 @@ class Money(commands.Cog):
         try:
             if member.id in ctx.guild.members:
                 self.bot.configs[ctx.guild.id]["players"][member.id]["balance"] = 0
-                logging.info(f"Resetting {member}'s balance")
+                logging.debug(f"Resetting {member}'s balance")
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Resetting {member.mention}'s balance"
+                    colour=0x00ff00,
+                    description=f"✅ Resetting {member.mention}'s balance"
                 )
                 embed.set_author(name="Reset money",
                                  icon_url=self.bot.user.avatar_url)
                 await ctx.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description="Member not found"
+                    colour=0xff0000,
+                    description="❌ Member not found"
                 )
                 embed.set_author(name="Reset money",
                                  icon_url=self.bot.user.avatar_url)
                 await ctx.send(embed=embed)
-                logging.info("Member not found")
+                logging.debug("Member not found")
         except:
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
@@ -106,16 +106,16 @@ class Money(commands.Cog):
                 logging.info(
                     f"Removing {int(balance)} from {member}")
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Removing {balance}{self.bot.configs[ctx.guild.id]['currency_symbol']} from <@{member.id}>"
+                    colour=0x00ff00,
+                    description=f"✅ Removing {balance}{self.bot.configs[ctx.guild.id]['currency_symbol']} from <@{member.id}>"
                 )
                 embed.set_author(name="Remove money",
                                  icon_url=self.bot.user.avatar_url)
                 await ctx.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description="Member not found"
+                    colour=0xff0000,
+                    description="❌ Member not found"
                 )
                 embed.set_author(name="Remove money",
                                  icon_url=self.bot.user.avatar_url)
@@ -139,8 +139,8 @@ class Money(commands.Cog):
                         money)
 
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Adding {int(money)}{self.bot.configs[ctx.guild.id]['currency_symbol']} to @everyone"
+                    colour=0x00ff00,
+                    description=f"✅ Adding {int(money)}{self.bot.configs[ctx.guild.id]['currency_symbol']} to @everyone"
                 )
                 embed.set_author(name="Add money",
                                  icon_url=self.bot.user.avatar_url)
@@ -157,12 +157,12 @@ class Money(commands.Cog):
 
             logging.debug(f"Adding {balance} to {member}")
 
-            if member in ctx.guild.members:                
+            if member in ctx.guild.members:
                 self.bot.configs[ctx.guild.id]["players"][member.id]["balance"] += abs(
                     int(balance))
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Adding {int(balance)}{self.bot.configs[ctx.guild.id]['currency_symbol']} to <@{_id}>"
+                    colour=0x00ff00,
+                    description=f"✅ Adding {int(balance)}{self.bot.configs[ctx.guild.id]['currency_symbol']} to <@{_id}>"
                 )
                 embed.set_author(name="Add money",
                                  icon_url=self.bot.user.avatar_url)
@@ -170,8 +170,8 @@ class Money(commands.Cog):
                 logging.info(f"Adding {balance} to {member}")
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description="Member not found"
+                    colour=0xff0000,
+                    description="❌ Member not found"
                 )
                 embed.set_author(name="Add money",
                                  icon_url=self.bot.user.avatar_url)
@@ -235,9 +235,8 @@ class Money(commands.Cog):
                                             role_list.append(role.id)
                                     except:
                                         embed = discord.Embed(
-                                            colour=discord.Colour.from_rgb(
-                                                255, 255, 0),
-                                            description=f"ERROR: {role.name} not found in config"
+                                            colour=0xff0000,
+                                            description=f"❌ {role.name} not found in config"
                                         )
                                         embed.set_author(
                                             name="Buy", icon_url=self.bot.user.avatar_url)
@@ -245,9 +244,8 @@ class Money(commands.Cog):
                                         return
                             if len(role_list) > 1:
                                 embed = discord.Embed(
-                                    colour=discord.Colour.from_rgb(
-                                        255, 255, 0),
-                                    description=f"ERROR: Multiple roles to add income to: `{role_list}`"
+                                    colour=0xff0000,
+                                    description=f"❌ Multiple roles to add income to: `{role_list}`"
                                 )
                                 embed.set_author(
                                     name="Buy", icon_url=self.bot.user.avatar_url)
@@ -255,8 +253,7 @@ class Money(commands.Cog):
                                 return
                             elif len(role_list) == 0 and self.bot.configs[ctx.guild.id]["upgrade"][type]["income"] != 0:
                                 embed = discord.Embed(
-                                    colour=discord.Colour.from_rgb(
-                                        255, 255, 0),
+                                    colour=0xff0000,
                                     description="❌ No role to add income to"
                                 )
                                 embed.set_author(
@@ -276,8 +273,7 @@ class Money(commands.Cog):
                                     self.bot.configs[ctx.guild.id]["upgrade"][type]["manpower"] if "manpower" in self.bot.configs[ctx.guild.id]["upgrade"][type] else 0)
                                 if self.bot.configs[ctx.guild.id]["upgrade"][type]["income"] != 0:
                                     embed = discord.Embed(
-                                        colour=discord.Colour.from_rgb(
-                                            255, 255, 0),
+                                        colour=0x00ff00,
                                         description=f"✅ Bought {value}x {type} for {cost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']} and your income is now {self.bot.configs[ctx.guild.id]['income'][role_list[0]]:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}\nDiscount: `{discount*100}%`\nBartering discount included in discount: `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['bartering']*self.bot.configs[ctx.guild.id]['bartering_rate']*100}%`".replace(
                                             ",", " ")
                                     )
@@ -286,8 +282,7 @@ class Money(commands.Cog):
                                     await ctx.send(embed=embed)
                                 else:
                                     embed = discord.Embed(
-                                        colour=discord.Colour.from_rgb(
-                                            255, 255, 0),
+                                        colour=0x00ff00,
                                         description=f"✅ Bought {value}x {type} for `{cost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nDiscount: `{discount*100}%`\nBartering discount included in discount: `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['bartering']*self.bot.configs[ctx.guild.id]['bartering_rate']*100}%`".replace(
                                             ",", " ")
                                     )
@@ -297,7 +292,7 @@ class Money(commands.Cog):
 
                         else:
                             embed = discord.Embed(
-                                colour=discord.Colour.from_rgb(255, 255, 0),
+                                colour=0xff0000,
                                 description="❌ Not enought money"
                             )
                             embed.set_author(
@@ -305,7 +300,7 @@ class Money(commands.Cog):
                             await ctx.send(embed=embed)
                     else:
                         embed = discord.Embed(
-                            colour=discord.Colour.from_rgb(255, 255, 0),
+                            colour=0xff0000,
                             description="❌ You cannot purchase more items of this type"
                         )
                         embed.set_author(
@@ -313,7 +308,7 @@ class Money(commands.Cog):
                         await ctx.send(embed=embed)
                 else:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
+                        colour=0xff0000,
                         description=f"❌ Required item not bought: {required}"
                     )
                     embed.set_author(
@@ -322,7 +317,7 @@ class Money(commands.Cog):
             else:
                 logging.info(f"Invalid type or value")
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description="❌ Invalid type or value"
                 )
                 embed.set_author(name="Buy", icon_url=self.bot.user.avatar_url)
@@ -340,7 +335,7 @@ class Money(commands.Cog):
         try:
             if balance < 1:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ Invalid value"
                 )
                 embed.set_author(name="Pay", icon_url=self.bot.user.avatar_url)
@@ -354,7 +349,7 @@ class Money(commands.Cog):
                             balance)
                         logging.info(f"Paid {balance} to {member}")
                         embed = discord.Embed(
-                            colour=discord.Colour.from_rgb(255, 255, 0),
+                            colour=0x00ff00,
                             description=f"✅ Paid {balance:,}{self.bot.configs[ctx.guild.id]['currency_symbol']} to <@{member.id}>".replace(
                                 ",", " ")
                         )
@@ -363,7 +358,7 @@ class Money(commands.Cog):
                         await ctx.send(embed=embed)
                     else:
                         embed = discord.Embed(
-                            colour=discord.Colour.from_rgb(255, 255, 0),
+                            colour=0xff0000,
                             description="❌ Member not found"
                         )
                         embed.set_author(
@@ -372,7 +367,7 @@ class Money(commands.Cog):
                         logging.info("Member not found")
                 else:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
+                        colour=0xff0000,
                         description="❌ You don't have enough money"
                     )
                     embed.set_author(
@@ -390,7 +385,7 @@ class Money(commands.Cog):
         logging.debug(f"Displaying balance of {ctx.author.display_name}")
         try:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"<@{ctx.author.id}> has {self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['balance']:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}".replace(
                     ",", " ")
             )
@@ -429,7 +424,7 @@ class Money(commands.Cog):
                     ",", " ")
                 if index == 30:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
+                        colour=0x00ff00,
                         description=msg
                     )
                     embed.set_author(
@@ -440,7 +435,7 @@ class Money(commands.Cog):
                 else:
                     index += 1
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=msg
             )
             embed.set_author(name="Shop", icon_url=self.bot.user.avatar_url)

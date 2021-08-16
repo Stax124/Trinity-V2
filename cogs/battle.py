@@ -28,7 +28,7 @@ class Battle(commands.Cog):
                                                                                              ['manpower']*self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['warlord']*self.bot.configs[ctx.guild.id]['warlord_rate']))
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"Manpower of <@{user.id}> is {manpower:,}\nWarlord boost: `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['warlord']*self.bot.configs[ctx.guild.id]['warlord_rate']*100}%`".replace(
                     ",", " ")
             )
@@ -61,7 +61,7 @@ class Battle(commands.Cog):
         if hours > self.bot.configs[ctx.guild.id]["maximum_attack_time"]:
             logging.debug(f"Reached max attack time limit")
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0xff0000,
                 description=f"❌ Attack can be postponed for maximum of {self.bot.configs[ctx.guild.id]['maximum_attack_time']}h"
             )
             await ctx.send(embed=embed)
@@ -72,7 +72,7 @@ class Battle(commands.Cog):
         else:
             logging.debug(f"Not enought forces")
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0xff0000,
                 description=f"❌ Not enought manpower"
             )
             await ctx.send(embed=embed)
@@ -82,7 +82,7 @@ class Battle(commands.Cog):
             if self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] < estart:
                 logging.debug(f"Not enought money for colonization")
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ Not enought money for colonization"
                 )
                 await ctx.send(embed=embed)
@@ -94,7 +94,10 @@ class Battle(commands.Cog):
         self.bot.configs[ctx.guild.id].save()
 
         embed = discord.Embed(
-            title="Attack", description=f"<@{ctx.author.id}>", color=discord.Colour.from_rgb(255, 255, 0))
+            title="Attack",
+            description=f"<@{ctx.author.id}>",
+            color=0x00ff00
+        )
         embed.set_author(name="Succesfully added to queue",
                          icon_url=self.bot.user.avatar_url)
         embed.add_field(name="Time", value=(datetime.datetime.now(tz=pytz.timezone(
@@ -151,10 +154,13 @@ class Battle(commands.Cog):
 
         if iteration == 4 and player_manpower > 0 and enemy_manpower > 0:
             msg = "❌ Out of rolls"
+            colour = 0xff0000
+            
             if skip_colonization == False:
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] += estart
         elif player_manpower > 0 and enemy_manpower == 0:
             msg = "✅ You won"
+            colour = 0x00ff00
 
             if self.bot.configs[ctx.guild.id]["allow_attack_income"]:
                 if income_role != None:
@@ -164,17 +170,21 @@ class Battle(commands.Cog):
                         self.bot.configs[ctx.guild.id]["income"][income_role.id] += income
         elif player_manpower == 0 and enemy_manpower > 0:
             msg = "❌ You lost"
+            colour = 0xff0000
+            
             if skip_colonization == False:
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] += estart
         else:
             msg = "❓ Tie ❓"
+            colour = 0xffff00
+            
             if skip_colonization == False:
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] += estart
 
         self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["manpower"] += player_manpower
 
         embed = discord.Embed(
-            colour=discord.Colour.from_rgb(255, 255, 0),
+            colour=colour,
             description=f"<@{ctx.author.id}>´s attack from {_time}\n\n{msg}\n\n`Before battle:`\n    Your army: {pstart:,}\n    Enemy army: {estart:,}\n\n`After battle:`\n    Your army: {player_manpower:,}\n    Enemy army: {enemy_manpower:,}\n\n`Casualties:`\n    Your army: {pstart-player_manpower:,}\n    Enemy army: {estart-enemy_manpower}".replace(
                 ",", " ")
         )

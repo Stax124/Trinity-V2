@@ -25,7 +25,7 @@ class Owner(commands.Cog):
 
         logging.warning("Shutting down bot")
         embed = discord.Embed(
-            colour=discord.Colour.from_rgb(255, 255, 0),
+            colour=0x00ff00,
             description="✅ Shutting down..."
         )
         embed.set_author(name="Shutdown", icon_url=self.bot.user.avatar_url)

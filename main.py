@@ -71,7 +71,7 @@ async def reload_extension(ctx: Context, extension: str):
         bot.reload_extension("cogs."+extension)
         logging.info(f"{extension} reloaded")
         embed = discord.Embed(
-            color=0xffff00, description=f"{extension} reloaded")
+            color=0x00ff00, description=f"{extension} reloaded")
         embed.set_author(name="Reload", icon_url=bot.user.avatar_url)
     except ExtensionNotFound:
         logging.error(f"{extension} not found")
@@ -94,7 +94,7 @@ async def load_extension(ctx: Context, extension: str):
     except ExtensionAlreadyLoaded:
         logging.warn(f"{extension} already loaded")
         embed = discord.Embed(
-            color=0xffff00, description=f"{extension} already loaded")
+            color=0xff0000, description=f"{extension} already loaded")
         embed.set_author(name="Load", icon_url=bot.user.avatar_url)
     except ExtensionNotFound:
         logging.error(f"{extension} not found")

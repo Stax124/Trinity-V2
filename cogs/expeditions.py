@@ -9,15 +9,15 @@ import traceback
 
 import discord
 import DiscordUtils
-from discord.ext.commands.bot import AutoShardedBot
 import pytz
 from core.static import rarity
 from discord.ext import commands
+from discord.ext.commands.bot import AutoShardedBot
 from discord.ext.commands.context import Context
 
 
 class Expeditions(commands.Cog):
-    "Owner commands"
+    "Expedition commands"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
@@ -66,7 +66,7 @@ class Expeditions(commands.Cog):
             }
 
             embed = discord.Embed(title=fargs.name, description=fargs.description,
-                                  color=discord.Colour.from_rgb(255, 255, 0))
+                                  colour=0x00ff00)
             embed.set_author(name="Succesfully added to missions",
                              icon_url=self.bot.user.avatar_url)
             embed.add_field(name="Cost", value=f"{fargs.cost:,}".replace(
@@ -106,7 +106,7 @@ class Expeditions(commands.Cog):
             try:
                 del self.bot.configs[ctx.guild.id]["missions"][mission]
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0x00ff00,
                     description=f"✅ Expedition removed"
                 )
                 embed.set_author(name="Remove expedition",
@@ -114,7 +114,7 @@ class Expeditions(commands.Cog):
                 await ctx.send(embed=embed)
             except KeyError:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ Expedition not found"
                 )
                 embed.set_author(name="Remove expedition",
@@ -135,7 +135,7 @@ class Expeditions(commands.Cog):
             for _mission in self.bot.configs[ctx.guild.id]["missions"]:
                 mission = self.bot.configs[ctx.guild.id]["missions"][_mission]
                 embed = discord.Embed(
-                    title=_mission, description=mission["description"], color=discord.Colour.from_rgb(255, 255, 0))
+                    title=_mission, description=mission["description"], color=0x00ff00)
                 embed.set_author(
                     name="Missions", icon_url=self.bot.user.avatar_url)
                 embed.add_field(
@@ -164,7 +164,7 @@ class Expeditions(commands.Cog):
 
             if e_list == []:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ No expeditions yet"
                 )
                 embed.set_author(name="Expeditions",
@@ -185,7 +185,7 @@ class Expeditions(commands.Cog):
         global asyncs_on_hold
 
         if self.bot.configs[ctx.guild.id]["block_asyncs"]:
-            await ctx.send("Function blocked by 'hold-asyncs'")
+            await ctx.send("❌ Function blocked by 'block-asyncs'")
             return
 
         user = ctx.author
@@ -193,7 +193,7 @@ class Expeditions(commands.Cog):
 
         if not self.bot.configs[ctx.guild.id]["players"][user.id]["level"] >= expedition["level"]:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0xff0000,
                 description=f"❌ Your level is too low"
             )
             embed.set_author(name="Expedition",
@@ -203,7 +203,7 @@ class Expeditions(commands.Cog):
 
         if not self.bot.configs[ctx.guild.id]["players"][user.id]["balance"] >= expedition["cost"]:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0xff0000,
                 description=f"❌ Not enought money"
             )
             embed.set_author(name="Expedition",
@@ -213,7 +213,7 @@ class Expeditions(commands.Cog):
 
         if not self.bot.configs[ctx.guild.id]["players"][user.id]["manpower"] >= expedition["manpower"]:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0xff0000,
                 description=f"❌ Not enought manpower"
             )
             embed.set_author(name="Expedition",
@@ -234,8 +234,8 @@ class Expeditions(commands.Cog):
         seconds = expedition["hours"] * 3600
 
         embed = discord.Embed(title=expedition_name, description=expedition["description"]
-                              if expedition["description"] != None else "", color=discord.Colour.from_rgb(255, 255, 0))
-        embed.set_author(name="Succesfully added to queue",
+                              if expedition["description"] != None else "", color=0x00ff00)
+        embed.set_author(name="✅ Succesfully added to queue",
                          icon_url=self.bot.user.avatar_url)
         embed.add_field(name="Time", value=(datetime.datetime.now(tz=pytz.timezone(
             'Europe/Prague')) + datetime.timedelta(hours=expedition["hours"])).strftime(r'%H:%M:%S'), inline=False)
@@ -284,8 +284,8 @@ class Expeditions(commands.Cog):
 
                 if chosen_item == None:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
-                        description=f"No item found"
+                        colour=0xff0000,
+                        description=f"❌ No item found"
                     )
                     embed.set_author(name="Expedition",
                                      icon_url=self.bot.user.avatar_url)
@@ -321,8 +321,8 @@ class Expeditions(commands.Cog):
                     self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["inventory"][name] = item
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Maximum item limit reached"
+                    colour=0xff0000,
+                    description=f"❌ Maximum item limit reached"
                 )
                 embed.set_author(name="Expedition",
                                  icon_url=self.bot.user.avatar_url)
@@ -332,7 +332,7 @@ class Expeditions(commands.Cog):
             msg = "❌ Failed"
 
         embed = discord.Embed(
-            colour=discord.Colour.from_rgb(255, 255, 0),
+            colour=0x0000ff,
             description=f"<@{user.id}>´s mission from {_time}\n\n{msg}".replace(
                 ",", " ")
         )

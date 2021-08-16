@@ -4,7 +4,7 @@ from discord.ext.commands.bot import AutoShardedBot
 from discord.ext.commands.context import Context
 
 
-class Example(commands.Cog):
+class Management(commands.Cog):
     "Example structure, feel free to remove/replace/extend it"
 
     def __init__(self, bot: AutoShardedBot):
@@ -15,7 +15,7 @@ class Example(commands.Cog):
     async def kick_member(self, ctx: Context, member: discord.Member, *,  reason: str = ""):
         await member.kick(reason=reason)
         embed = discord.Embed(
-            color=self.bot.configs[ctx.guild.id]["color"], description=f"{member.mention} was kicked\nReason: `{reason if reason else 'Unknown'}`")
+            color=0x00ff00, description=f"{member.mention} was kicked\nReason: `{reason if reason else 'Unknown'}`")
         embed.set_author(name="Kick", icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed)
 
@@ -24,10 +24,10 @@ class Example(commands.Cog):
     async def ban_member(self, ctx: Context, member: discord.Member, *, reason: str = ""):
         await member.ban(reason=reason)
         embed = discord.Embed(
-            color=self.bot.configs[ctx.guild.id]["color"], description=f"{member.mention} was banned\nReason: `{reason if reason else 'Unknown'}`")
+            color=0x00ff00, description=f"{member.mention} was banned\nReason: `{reason if reason else 'Unknown'}`")
         embed.set_author(name="Ban", icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed)
 
 
 def setup(bot):
-    bot.add_cog(Example(bot))
+    bot.add_cog(Management(bot))

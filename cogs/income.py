@@ -10,7 +10,7 @@ from discord.utils import get
 
 
 class Income(commands.Cog):
-    "Owner commands"
+    "Income commands"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
@@ -21,7 +21,7 @@ class Income(commands.Cog):
             f"{ctx.author.display_name} requested income calc of {population}")
         try:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"Income: {int((int(population) * 0.01 * 0.4 / 6)):,}{self.bot.configs[ctx.guild.id]['currency_symbol']}".replace(
                     ",", " ")
             )
@@ -45,8 +45,8 @@ class Income(commands.Cog):
                         logging.debug(f"Excluding: {role.name}")
                 except:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
-                        description=f"ERROR: {role.name} not found in config"
+                        colour=0xff0000,
+                        description=f"❌ {role.name} not found in config"
                     )
                     embed.set_author(
                         name="Income", icon_url=self.bot.user.avatar_url)
@@ -70,8 +70,8 @@ class Income(commands.Cog):
                 stewardship_bonus)
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
-                description=f"Income: `{income:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nIncome boosted: `{income_boost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nIncome multiplier `{income_multiplier}`\nStewardship bonus `{stewardship_bonus}%`".replace(
+                colour=0x00ff00,
+                description=f"Income: `{income:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nIncome boosted: `{income_boost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nIncome multiplier `{income_multiplier}`\nStewardship bonus `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['stewardship'] * self.bot.configs[ctx.guild.id]['stewardship_rate'] * 100}%`".replace(
                     ",", " ")
             )
             embed.set_author(name="Income", icon_url=self.bot.user.avatar_url)
@@ -89,8 +89,8 @@ class Income(commands.Cog):
                 self.bot.configs[ctx.guild.id]["income"][role.id] += value
 
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Added: `{value:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}` to income of {role.mention}".replace(
+                    colour=0x00ff00,
+                    description=f"✅ Added: `{value:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}` to income of {role.mention}".replace(
                         ",", " ")
                 )
                 embed.set_author(name="Add income",
@@ -98,8 +98,8 @@ class Income(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Add income"
+                    colour=0xff0000,
+                    description=f"❌ Nothing to add"
                 )
                 embed.set_author(
                     name="Income", icon_url=self.bot.user.avatar_url)
@@ -108,7 +108,7 @@ class Income(commands.Cog):
         except:
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
-            
+
         self.bot.configs[ctx.guild.id].save()
 
     @commands.command(name="remove-income", pass_context=True, help="Remove income: remove-income <role: discord.Role> <value: integer>")
@@ -120,8 +120,8 @@ class Income(commands.Cog):
                 self.bot.configs[ctx.guild.id]["income"][role.id] -= value
 
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Removed: `{value:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}` from income of {role.mention}".replace(
+                    colour=0x00ff00,
+                    description=f"✅ Removed: `{value:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}` from income of {role.mention}".replace(
                         ",", " ")
                 )
                 embed.set_author(
@@ -129,8 +129,8 @@ class Income(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f"Invalid value"
+                    colour=0xff0000,
+                    description=f"❌ Invalid value"
                 )
                 embed.set_author(
                     name="Income", icon_url=self.bot.user.avatar_url)
@@ -138,7 +138,7 @@ class Income(commands.Cog):
         except:
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
-            
+
         self.bot.configs[ctx.guild.id].save()
 
     @commands.command(name="income-lb", help="Show da income leaderboard: l, lb, leaderboard")
@@ -161,7 +161,7 @@ class Income(commands.Cog):
                     ",", " ")
                 if index == 30:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
+                        colour=0x00ff00,
                         description=msg
                     )
                     embed.set_author(name="Income Leaderboard",
@@ -173,7 +173,7 @@ class Income(commands.Cog):
                     index += 1
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=msg
             )
             embed.set_author(name="Leaderboard",

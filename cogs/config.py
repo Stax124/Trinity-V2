@@ -151,7 +151,7 @@ class Config(commands.Cog):
                     _id = int(re.findall(pattern, message[i])[0])
                     for _user in _users:
                         if _user.id == _id:
-                            logging.info(
+                            logging.debug(
                                 f"{message[i]} was replaced by {_user.id}")
                             message[i] = _user.id
                     break
@@ -162,7 +162,7 @@ class Config(commands.Cog):
                     _id = int(re.findall(pattern, message[i])[0])
                     for _user in _users:
                         if _user.id == _id:
-                            logging.info(
+                            logging.debug(
                                 f"{message[i]} was replaced by {_user.id}")
                             message[i] = _user.id
                     break
@@ -173,7 +173,7 @@ class Config(commands.Cog):
                     _id = int(re.findall(pattern, message[i])[0])
                     for _role in _roles:
                         if _role.id == _id:
-                            logging.info(
+                            logging.debug(
                                 f"{message[i]} was replaced by {_role.id}")
                             message[i] = _role.id
                     break

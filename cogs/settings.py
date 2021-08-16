@@ -36,7 +36,7 @@ class Settings(commands.Cog):
     @commands.command(name="prefix")
     @commands.has_permissions(administrator=True)
     async def prefix(self, ctx: Context, prefix: str):
-        if await confirm(self.bot, ctx, message=f"Set audit channel to {ctx.channel.mention} ?"):
+        if await confirm(self.bot, ctx, message=f"Set prefix to `{prefix}` ?"):
             self.bot.configs[ctx.guild.id]["prefix"] = prefix
             self.bot.configs[ctx.guild.id].save()
 
@@ -53,7 +53,7 @@ class Settings(commands.Cog):
             return
 
         embed = discord.Embed(
-            colour=discord.Colour.from_rgb(255, 255, 0),
+            colour=0x00ff00,
             description="✅ Paused..."
         )
         embed.set_author(name="Pause", icon_url=self.bot.user.avatar_url)
@@ -73,7 +73,7 @@ class Settings(commands.Cog):
             return
 
         embed = discord.Embed(
-            colour=discord.Colour.from_rgb(255, 255, 0),
+            colour=0x00ff00,
             description="✅ Unpaused..."
         )
         embed.set_author(name="Unpause", icon_url=self.bot.user.avatar_url)
@@ -112,7 +112,7 @@ class Settings(commands.Cog):
         self.bot.configs[ctx.guild.id]["maxupgrade"] = {**self.bot.configs[ctx.guild.id]["maxupgrade"],
                                                         **{fargs.name: fargs.maxupgrade}}
 
-        embed = discord.Embed(title=fargs.name, color=0xffff00)
+        embed = discord.Embed(title=fargs.name, color=0x00ff00)
         embed.set_author(name="Succesfully added to inventory",
                          icon_url=self.bot.user.avatar_url)
         embed.add_field(name="Cost", value=fargs.cost, inline=True)
@@ -134,7 +134,7 @@ class Settings(commands.Cog):
                 item
             except:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ No name specified"
                 )
                 embed.set_author(name="Remove item",
@@ -156,7 +156,7 @@ class Settings(commands.Cog):
             self.bot.configs[ctx.guild.id]["maxupgrade"].pop(item)
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"✅ Sucessfully removed `{item}`"
             )
             embed.set_author(name="Remove item",
@@ -176,7 +176,7 @@ class Settings(commands.Cog):
             self.bot.configs[ctx.guild.id]["deltatime"] = int(value)
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"✅ Deltatime changed to {int(value)} seconds"
             )
             embed.set_author(name="Config", icon_url=self.bot.user.avatar_url)
@@ -185,7 +185,7 @@ class Settings(commands.Cog):
         except:
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
-            
+
         self.bot.configs[ctx.guild.id].save()
 
 # endregion

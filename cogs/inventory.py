@@ -5,15 +5,15 @@ from typing import Union
 
 import discord
 import DiscordUtils
-from discord.ext.commands.bot import AutoShardedBot
 from core.functions import confirm
 from core.static import rarity
 from discord.ext import commands
+from discord.ext.commands.bot import AutoShardedBot
 from discord.ext.commands.context import Context
 
 
 class Inventory(commands.Cog):
-    "Owner commands"
+    "Inventory commands"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
@@ -47,7 +47,7 @@ class Inventory(commands.Cog):
 
             if e_list == []:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ Nothing in inventory"
                 )
                 embed.set_author(name="Inventory",
@@ -91,7 +91,7 @@ class Inventory(commands.Cog):
 
             if e_list == []:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ Nothing in inventory"
                 )
                 embed.set_author(name="Inventory",
@@ -117,7 +117,7 @@ class Inventory(commands.Cog):
 
                 if self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["inventory"][item]["type"] in types:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
+                        colour=0xff0000,
                         description=f"❌ Slot already occupied"
                     )
                     embed.set_author(
@@ -129,7 +129,7 @@ class Inventory(commands.Cog):
                     item] = self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["inventory"][item]
                 del self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["inventory"][item]
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0x00ff00,
                     description=f"✅ {item} equiped"
                 )
                 embed.set_author(
@@ -138,7 +138,7 @@ class Inventory(commands.Cog):
 
             except KeyError:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ {item} not found in your inventory"
                 )
                 embed.set_author(
@@ -158,7 +158,7 @@ class Inventory(commands.Cog):
                     item] = self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["equiped"][item]
                 del self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["equiped"][item]
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0x00ff00,
                     description=f"✅ {item} unequiped"
                 )
                 embed.set_author(
@@ -167,7 +167,7 @@ class Inventory(commands.Cog):
 
             except KeyError:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ {item} not found in your inventory"
                 )
                 embed.set_author(
@@ -190,7 +190,7 @@ class Inventory(commands.Cog):
                 del self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["inventory"][item]
 
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0x00ff00,
                     description=f"✅ Recycled"
                 )
                 embed.set_author(
@@ -199,7 +199,7 @@ class Inventory(commands.Cog):
 
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f"❌ {item} not found"
                 )
                 embed.set_author(
@@ -292,7 +292,7 @@ class Inventory(commands.Cog):
         if user == "loot-table":
             del self.bot.configs[ctx.guild.id]["loot-table"][item]
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"✅ Removed {item} from loot-table"
             )
             embed.set_author(name="Remove player item",
@@ -302,7 +302,7 @@ class Inventory(commands.Cog):
             del self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"][item]
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"✅ Removed {item} from <@{user.id}>´s inventory"
             )
             embed.set_author(name="Remove player item",
@@ -310,7 +310,7 @@ class Inventory(commands.Cog):
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0xff0000,
                 description=f"❌ {item} not found in <@{user.id}>´s inventory"
             )
             embed.set_author(name="Remove player item",

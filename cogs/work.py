@@ -64,7 +64,7 @@ class Work(commands.Cog):
                         f"{ctx.author.display_name} ■ {ctx.author.id} is working [timedelta={timedelta}, rate={rate}]")
                     embed = discord.Embed(
                         colour=0x00ff00,
-                        description=f"✅ <@{ctx.author.id}> worked and got `{int(timedelta*income*rate):,} {self.bot.configs[ctx.guild.id]['currency_symbol']}`\nNext available at {datetime.datetime.fromtimestamp(int(self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['last-work'] + self.bot.configs[ctx.guild.id]['deltatime']),tz=pytz.timezone('Europe/Prague')).time()}\nIncome boosted: `{income_boost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nIncome multiplier `{income_multiplier}`\nStewardship bonus: `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['stewardship']*self.bot.configs[ctx.guild.id]['stewardship_rate']}%`".replace(",", " ")
+                        description=f"✅ <@{ctx.author.id}> worked and got `{int(timedelta*income*rate):,} {self.bot.configs[ctx.guild.id]['currency_symbol']}`\nNext available at {datetime.datetime.fromtimestamp(int(self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['last-work'] + self.bot.configs[ctx.guild.id]['deltatime']),tz=pytz.timezone('Europe/Prague')).time()}\nIncome boosted: `{income_boost:,}{self.bot.configs[ctx.guild.id]['currency_symbol']}`\nIncome multiplier `{income_multiplier}`\nStewardship bonus: `{self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['stewardship']*self.bot.configs[ctx.guild.id]['stewardship_rate'] * 100}%`".replace(",", " ")
                     )
                     embed.set_author(
                         name="Work", icon_url=self.bot.user.avatar_url)

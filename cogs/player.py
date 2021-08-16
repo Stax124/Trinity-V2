@@ -19,7 +19,7 @@ class Player(commands.Cog):
             player = self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["stats"]
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f"""
                     Diplomacy: {player["diplomacy"]}
                     Warlord: {player["warlord"]}
@@ -53,7 +53,7 @@ class Player(commands.Cog):
                 progress = int((xp / xp_for_level) * 100)
 
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f'Level: {level}\nXp: {xp} / {xp_for_level}\n[{"#"*int(progress/2)+"-"*(50-int(progress/2))}] {progress}%'
             )
             embed.set_author(name="Level", icon_url=self.bot.user.avatar_url)
@@ -74,8 +74,8 @@ class Player(commands.Cog):
                     self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["skillpoints"] -= value
 
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
-                        description=f'Skill point used: {skill} = {self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["stats"][skill.lower()]}'
+                        colour=0x00ff00,
+                        description=f'✅ Skill point used: {skill} = {self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["stats"][skill.lower()]}'
                     )
                     embed.set_author(name="Add skill",
                                      icon_url=self.bot.user.avatar_url)
@@ -83,16 +83,16 @@ class Player(commands.Cog):
 
                 else:
                     embed = discord.Embed(
-                        colour=discord.Colour.from_rgb(255, 255, 0),
-                        description=f'Not enought skillpoints'
+                        colour=0xff0000,
+                        description=f'❌ Not enought skillpoints'
                     )
                     embed.set_author(name="Add skill",
                                      icon_url=self.bot.user.avatar_url)
                     await ctx.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
-                    description=f'No skill named {skill} found'
+                    colour=0xff0000,
+                    description=f'❌ No skill named {skill} found'
                 )
                 embed.set_author(name="Add skill",
                                  icon_url=self.bot.user.avatar_url)
@@ -107,7 +107,7 @@ class Player(commands.Cog):
     async def skillpoints(self, ctx: Context):
         try:
             embed = discord.Embed(
-                colour=discord.Colour.from_rgb(255, 255, 0),
+                colour=0x00ff00,
                 description=f'Your skillpoints: {self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["skillpoints"]}'
             )
             embed.set_author(name="Skillpoints",

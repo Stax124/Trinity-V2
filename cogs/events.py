@@ -27,7 +27,7 @@ class Events(commands.Cog):
             logging.debug(f"Error occured: {error}")
             if isinstance(error, CommandNotFound):
                 embed = discord.Embed(
-                    colour=discord.Colour.from_rgb(255, 255, 0),
+                    colour=0xff0000,
                     description=f'❌ Command not found'
                 )
                 embed.set_author(name="Status", icon_url=bot.user.avatar_url)
@@ -36,7 +36,13 @@ class Events(commands.Cog):
                 logging.debug("Error 404, passing")
                 pass
             elif isinstance(error, MissingRequiredArgument):
-                logging.info(error)
+                logging.debug(error)
+                embed = discord.Embed(
+                    colour=0xff0000,
+                    description=f'❌ Missing required argument(s)'
+                )
+                embed.set_author(name="Status", icon_url=bot.user.avatar_url)
+                await ctx.send(embed=embed)
                 pass
             else:
                 logging.debug("Error not catched, raising")

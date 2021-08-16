@@ -8,7 +8,7 @@ print("running")
 mention = "<@292312596260978688>"
 bot_mention = "<@784059560972779540>"
 role = "<@&749188696313561119>"
-prefix = "."
+prefix = "_"
 
 
 def run(command: str, pause: int = 5, usePrefix: bool = True):
