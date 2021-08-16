@@ -42,6 +42,9 @@ logging.basicConfig(
 default_extensions = ["cogs."+i.replace(".py", "")
                       for i in os.listdir("cogs") if i.endswith(".py")]
 
+if not os.path.exists("config"):
+    os.makedirs("config")
+
 
 def get_prefix(bot, msg):
     return commands.when_mentioned_or(bot.configs[msg.guild.id]["prefix"])(bot, msg)
