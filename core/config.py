@@ -3,11 +3,18 @@ import logging
 import os
 import traceback
 
+from discord.ext.commands.bot import AutoShardedBot
+
 from core.functions import jsonKeys2int
 
 
 class Configuration():
     "Class for maintaining configuration information and files"
+
+    def __init__(self, filename: str, bot: AutoShardedBot):
+        self.CONFIG = os.path.expanduser(f"./config/{filename}.json")
+        self.config = {}
+        self.bot = bot
 
     def load(self):
         try:
@@ -19,7 +26,7 @@ class Configuration():
         except FileNotFoundError:
             logging.warning(
                 f"Config is unavailable or protected. Loading fallback...")
-            self.config = self.fallback
+            self.config = self.bot.fallback
             logging.info(f"Fallback loaded")
             try:
                 logging.info(
@@ -31,40 +38,6 @@ class Configuration():
                     f"Error writing config file, please check if you have permission to write in this location: {self.CONFIG}")
                 return
         logging.info(f"Config loaded")
-
-    def __init__(self, filename: str):
-        self.CONFIG = os.path.expanduser(f"./config/{filename}.json")
-        self.config = {}
-        self.fallback = {
-            "allow_attack_income": True,
-            "backup_time": 43200,
-            "backups": 5,
-            "bartering_rate": 0.025,
-            "block_asyncs": False,
-            "color": 0xffff00,
-            "currency_symbol": "$",
-            "default_balance": 0,
-            "default_role": "",
-            "deltatime": 7200,
-            "diplomacy_rate": 0.025,
-            "disabled_roles": ["@everyone"],
-            "income": {},
-            "intrique_rate": 0.025,
-            "join_dm": "",
-            "learning_rate": 0.25,
-            "level_multiplier": 1.2,
-            "max_player_items": 30,
-            "maximum_attack_time": 48,
-            "maxupgrade": {},
-            "players": {},
-            "prefix": ".",
-            "stewardship_rate": 0.025,
-            "trading_rate": 0.025,
-            "upgrade": {},
-            "warlord_rate": 0.025,
-            "work_range": 0,
-            "xp_for_level": 1000,
-        }
 
     def save(self):
         try:
@@ -89,9 +62,9 @@ class Configuration():
         except:
             logging.debug(
                 f"{name} not found in config, trying to get from fallback")
-            self.config[name] = self.fallback[name]
+            self.config[name] = self.bot.fallback[name]
             self.save()
-            return self.fallback[name]
+            return self.bot.fallback[name]
 
     def __setitem__(self, key: str, val):
         logging.debug(f"Setting {key} to {val}")

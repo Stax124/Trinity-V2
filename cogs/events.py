@@ -63,7 +63,7 @@ class Events(commands.Cog):
         @bot.event
         async def on_ready():
             for guild in bot.guilds:
-                config = Configuration(guild.id)
+                config = Configuration(guild.id, bot)
                 config.load()
                 bot.configs[guild.id] = config
 

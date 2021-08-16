@@ -1,7 +1,6 @@
 import logging
 
 import discord
-from core.config import Configuration
 from discord.activity import Activity
 from discord.enums import ActivityType
 from discord.ext import commands
