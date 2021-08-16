@@ -162,4 +162,4 @@ if __name__ == "__main__":
         bot.load_extension(extension)
         logging.info(f"{extension} loaded")
 
-    bot.run(os.environ["TRINITY_BETA"], reconnect=True)
+    bot.run(os.environ["TRINITY"], reconnect=True)
