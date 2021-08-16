@@ -1,0 +1,31 @@
+{
+    "allow_attack_income": true,
+    "backup_time": 43200,
+    "backups": 5,
+    "bartering_rate": 0.025,
+    "block_asyncs": true,
+    "currency_symbol": "$",
+    "default_balance": 0,
+    "default_role": "",
+    "deltatime": 7200,
+    "diplomacy_rate": 0.025,
+    "disabled_roles": [
+        "@everyone"
+    ],
+    "income": {},
+    "intrique_rate": 0.025,
+    "join_dm": "",
+    "learning_rate": 0.25,
+    "level_multiplier": 1.2,
+    "max_player_items": 30,
+    "maximum_attack_time": 48,
+    "maxupgrade": {},
+    "players": {},
+    "prefix": ".",
+    "stewardship_rate": 0.025,
+    "trading_rate": 0.025,
+    "upgrade": {},
+    "warlord_rate": 0.025,
+    "work_range": 0,
+    "xp_for_level": 1000
+}

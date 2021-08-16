@@ -195,7 +195,7 @@ class PlayerShop(commands.Cog):
             del self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["player_shop"][item]
             embed = discord.Embed(
                 colour=0x00ff00,
-                description="✅ Item removed from shop"
+                description="✅ Item retrieved from shop"
             )
             embed.set_author(name="Player retrieve",
                              icon_url=self.bot.user.avatar_url)
