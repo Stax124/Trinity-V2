@@ -10,12 +10,12 @@ from discord.utils import get
 
 
 class Income(commands.Cog):
-    "Income commands"
+    "How to make money without paying f*cking taxes"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="income-calc", help="Calculate income: income <populace>")
+    @commands.command(name="income-calc", help="Calculate income")
     async def income_calc(self, ctx: Context, population: int = 0):
         logging.debug(
             f"{ctx.author.display_name} requested income calc of {population}")
@@ -32,7 +32,7 @@ class Income(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="income", help="Shows your income: income")
+    @commands.command(name="income", help="Shows your income")
     async def income(self, ctx: Context):
         logging.debug(f"Displaying income of {ctx.author.display_name}")
         try:
@@ -80,7 +80,7 @@ class Income(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="add-income", pass_context=True, help="Add income: add-income <role: discord.Role> <value: integer>")
+    @commands.command(name="add-income", pass_context=True, help="Add income to a role")
     @commands.has_permissions(administrator=True)
     async def add_income(self, ctx: Context, role: discord.Role, value: int):
         logging.debug(f"Adding {value} to income of {role}")
@@ -111,7 +111,7 @@ class Income(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="remove-income", pass_context=True, help="Remove income: remove-income <role: discord.Role> <value: integer>")
+    @commands.command(name="remove-income", pass_context=True, help="Remove income")
     @commands.has_permissions(administrator=True)
     async def remove_income(self, ctx: Context, role: discord.Role, value: int):
         logging.debug(f"Removing {value} from income of {role}")
@@ -141,7 +141,7 @@ class Income(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="income-lb", help="Show da income leaderboard: l, lb, leaderboard")
+    @commands.command(name="income-lb", help="Show da income leaderboard")
     async def income_lb(self, ctx: Context):
         logging.debug("Displaying income leaderboard")
         try:

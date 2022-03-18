@@ -1,3 +1,5 @@
 .vscode/
 config/
 *.pyc
+.mypy_cache/
+logs/

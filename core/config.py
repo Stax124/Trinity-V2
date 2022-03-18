@@ -13,7 +13,7 @@ class Configuration():
 
     def __init__(self, filename: str, bot: AutoShardedBot):
         self.CONFIG = os.path.expanduser(f"./config/{filename}.json")
-        self.config = {}
+        self.config: dict[str, dict] = {}
         self.bot = bot
 
     def load(self):

@@ -13,12 +13,12 @@ from discord.ext.commands.context import Context
 
 
 class Inventory(commands.Cog):
-    "Inventory commands"
+    "Hoard your useless stuff you found in dumpster"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="inventory", help="Shows your 'realy usefull' items in your inventory: inventory", aliases=["inv", "backpack", "loot"])
+    @commands.command(name="inventory", help="Shows your 'realy usefull' items in your inventory", aliases=["inv", "backpack", "loot"])
     async def inventory(self, ctx: Context):
         try:
             e_list = []
@@ -62,7 +62,7 @@ class Inventory(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="equiped", help="Shows your equiped items: equiped")
+    @commands.command(name="equiped", help="Shows your equiped items")
     async def equiped(self, ctx: Context):
         try:
             e_list = []
@@ -211,7 +211,7 @@ class Inventory(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="recycle-all", help="Recycle item: recycle-all <rarity: str>")
+    @commands.command(name="recycle-all", help="Recycle item")
     async def recycle_all(self, ctx: Context, rarity: str = "common"):
         try:
             items = [item for item in self.bot.configs[ctx.guild.id]["players"]
@@ -227,7 +227,7 @@ class Inventory(commands.Cog):
 
     @commands.command(name="add-player-item", help="Add new item to players inventory: add-player-item UNION[str, discord.Member] [--income INCOME] [--income_percent INCOME_PERCENT] [--discount DISCOUNT] [--discount_percent DISCOUNT_PERCENT] [--description DESCRIPTION] name {common,uncommon,rare,epic,legendary,event} {helmet,weapon,armor,leggins,boots,artefact}")
     @commands.has_permissions(administrator=True)
-    async def add_player_item(self, ctx: Context, user: Union[discord.Member, str], *querry):
+    async def add_player_item(self, ctx: Context, _user: Union[discord.Member, str], *_querry):
         fparser = argparse.ArgumentParser()
         fparser.add_argument("name", type=str)
         fparser.add_argument("rarity", choices=[
@@ -240,14 +240,14 @@ class Inventory(commands.Cog):
         fparser.add_argument("--discount_percent", type=int, default=0)
         fparser.add_argument("--description", type=str, default=None)
 
-        querry = shlex.split(" ".join(querry))
+        querry = shlex.split(" ".join(_querry))
 
         try:
             fargs = fparser.parse_args(querry)
         except SystemExit:
             return
 
-        if user == "loot-table":
+        if _user == "loot-table":
             self.bot.configs[ctx.guild.id]["loot-table"][fargs.name] = {
                 "description": fargs.description,
                 "type": fargs.type,
@@ -259,6 +259,7 @@ class Inventory(commands.Cog):
                 "equiped": False
             }
         else:
+            user: discord.Member = _user
             self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"][fargs.name] = {
                 "description": fargs.description,
                 "type": fargs.type,
@@ -286,10 +287,10 @@ class Inventory(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="remove-player-item", help="Remove item from players inventory: remove-player-item <user: Union[str, discord.Member]> <item: str>")
+    @commands.command(name="remove-player-item", help="Remove item from players inventory")
     @commands.has_permissions(administrator=True)
-    async def remove_player_item(self, ctx: Context, user: Union[str, discord.Member], *, item: str):
-        if user == "loot-table":
+    async def remove_player_item(self, ctx: Context, _user: Union[str, discord.Member], *, item: str):
+        if _user == "loot-table":
             del self.bot.configs[ctx.guild.id]["loot-table"][item]
             embed = discord.Embed(
                 colour=0x00ff00,
@@ -298,24 +299,26 @@ class Inventory(commands.Cog):
             embed.set_author(name="Remove player item",
                              icon_url=self.bot.user.avatar_url)
             await ctx.send(embed=embed)
-        elif item in self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"]:
-            del self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"][item]
-
-            embed = discord.Embed(
-                colour=0x00ff00,
-                description=f"✅ Removed {item} from <@{user.id}>´s inventory"
-            )
-            embed.set_author(name="Remove player item",
-                             icon_url=self.bot.user.avatar_url)
-            await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(
-                colour=0xff0000,
-                description=f"❌ {item} not found in <@{user.id}>´s inventory"
-            )
-            embed.set_author(name="Remove player item",
-                             icon_url=self.bot.user.avatar_url)
-            await ctx.send(embed=embed)
+            user: discord.Member = _user
+            if item in self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"]:
+                del self.bot.configs[ctx.guild.id]["players"][user.id]["inventory"][item]
+
+                embed = discord.Embed(
+                    colour=0x00ff00,
+                    description=f"✅ Removed {item} from <@{user.id}>´s inventory"
+                )
+                embed.set_author(name="Remove player item",
+                                 icon_url=self.bot.user.avatar_url)
+                await ctx.send(embed=embed)
+            else:
+                embed = discord.Embed(
+                    colour=0xff0000,
+                    description=f"❌ {item} not found in <@{user.id}>´s inventory"
+                )
+                embed.set_author(name="Remove player item",
+                                 icon_url=self.bot.user.avatar_url)
+                await ctx.send(embed=embed)
 
         self.bot.configs[ctx.guild.id].save()
 

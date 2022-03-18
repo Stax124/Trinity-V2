@@ -6,31 +6,27 @@ import traceback
 
 import discord
 from core.functions import confirm
-from discord.activity import Activity
-from discord.enums import ActivityType, Status
 from discord.ext import commands
 from discord.ext.commands.bot import AutoShardedBot
 from discord.ext.commands.context import Context
 
 
 class Settings(commands.Cog):
-    "Settings"
+    "Motion blur - off"
 
     deltatime = 7200
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    # region Default settings
-
-    @commands.command(name="config", help="Dump config for your server")
+    @commands.command(name="dump-config", help="Dump config for your server")
     @commands.has_permissions(administrator=True)
-    async def config(self, ctx: Context):
+    async def dump_config(self, ctx: Context):
         await ctx.send(json.dumps(self.bot.configs[ctx.guild.id].config))
 
-    @commands.command(name="version")
+    @commands.command(name="version", help="Shows current version")
     @commands.has_permissions(administrator=True)
-    async def config(self, ctx: Context):
+    async def version(self, ctx: Context):
         await ctx.send(self.bot.__version__)
 
     @commands.command(name="prefix")
@@ -40,52 +36,9 @@ class Settings(commands.Cog):
             self.bot.configs[ctx.guild.id]["prefix"] = prefix
             self.bot.configs[ctx.guild.id].save()
 
-    # endregion
-
-    # region Triniy specific settings
-    @commands.command(name="pause", help="Show the bot, whos da boss: shutdown", pass_context=True)
-    @commands.is_owner()
-    async def pause(self, ctx: Context):
-        global paused
-
-        confirmed = await confirm(self.bot, ctx, "Pause process ?")
-        if not confirmed:
-            return
-
-        embed = discord.Embed(
-            colour=0x00ff00,
-            description="✅ Paused..."
-        )
-        embed.set_author(name="Pause", icon_url=self.bot.user.avatar_url)
-        await ctx.send(embed=embed)
-        self.bot.paused = True
-        logging.info("Paused...")
-
-        await self.bot.change_presence(activity=discord.Game(name=f"Paused"), status=Status.do_not_disturb)
-
-    @commands.command(name="unpause", help="Show the bot, whos da boss: shutdown", pass_context=True)
-    @commands.is_owner()
-    async def unpause(self, ctx: Context):
-        global paused
-
-        confirmed = await confirm(self.bot, ctx, "Unpause process ?")
-        if not confirmed:
-            return
-
-        embed = discord.Embed(
-            colour=0x00ff00,
-            description="✅ Unpaused..."
-        )
-        embed.set_author(name="Unpause", icon_url=self.bot.user.avatar_url)
-        await ctx.send(embed=embed)
-        self.bot.paused = False
-        logging.info("Unpaused...")
-
-        await self.bot.change_presence(activity=Activity(name=f"{len(self.bot.guilds)} servers", type=ActivityType.watching))
-
     @commands.command(name="add-item", pass_context=True, help="Add item to database: add-item [--maxupgrade MAXUPGRADE] [--income INCOME] [--manpower MANPOWER] [--require REQUIRE] name cost")
     @commands.has_permissions(administrator=True)
-    async def add_item(self, ctx: Context, *querry):
+    async def add_item(self, ctx: Context, *_querry):
         fparser = argparse.ArgumentParser()
         fparser.add_argument("name", type=str)
         fparser.add_argument("cost", type=int)
@@ -94,7 +47,7 @@ class Settings(commands.Cog):
         fparser.add_argument("--manpower", type=int, default=0)
         fparser.add_argument("--require", type=str, default=None)
 
-        querry = shlex.split(" ".join(querry))
+        querry = shlex.split(" ".join(_querry))
 
         try:
             fargs = fparser.parse_args(querry)
@@ -126,7 +79,7 @@ class Settings(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="remove-item", pass_context=True, help="Remove item from database: remove-item <name: str>")
+    @commands.command(name="remove-item", pass_context=True, help="Remove item from database")
     @commands.has_permissions(administrator=True)
     async def remove_item(self, ctx: Context, item: str):
         try:
@@ -169,9 +122,9 @@ class Settings(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="deltatime", help="Sets time between allowed !work commands: deltatime <value: int>", pass_context=True)
+    @commands.command(name="deltatime", help="Sets time between allowed !work commands", pass_context=True)
     @commands.has_permissions(administrator=True)
-    async def deltatime(self, ctx: Context, value: int = deltatime):
+    async def deltatime_fn(self, ctx: Context, value: int = deltatime):
         try:
             self.bot.configs[ctx.guild.id]["deltatime"] = int(value)
 
@@ -187,8 +140,6 @@ class Settings(commands.Cog):
             await ctx.send(traceback.format_exc())
 
         self.bot.configs[ctx.guild.id].save()
-
-# endregion
 
 
 def setup(bot):

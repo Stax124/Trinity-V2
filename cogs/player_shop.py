@@ -12,16 +12,15 @@ from discord.ext.commands.context import Context
 
 
 class PlayerShop(commands.Cog):
-    "Owner commands"
+    "Sell stuff, so you can pay your rent"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="player-shop", help="Show player shop: player-shop <player: discord.Member>")
-    async def player_shop(self, ctx: Context, user: discord.Member = None):
+    @commands.command(name="player-shop", help="Show player shop")
+    async def player_shop(self, ctx: Context, _user: discord.Member = None):
         try:
-            if user == None:
-                user = ctx.author
+            user = ctx.author if _user == None else _user
 
             e_list = []
             index = 1
@@ -60,7 +59,7 @@ class PlayerShop(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="player-sell", help="Sell items: player-sell <price: int> <item: str>")
+    @commands.command(name="player-sell", help="Sell items")
     async def player_sell(self, ctx: Context, *, message):
         try:
             querry = shlex.split(message)
@@ -109,7 +108,7 @@ class PlayerShop(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="player-buy", help="Sell items: player-buy <user: discord.Member> <item: str>")
+    @commands.command(name="player-buy", help="Sell items")
     async def player_buy(self, ctx: Context, user: discord.Member, *, item: str):
         try:
             if ctx.author == user:
@@ -171,7 +170,7 @@ class PlayerShop(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="player-retrieve", help="Cancel shop listing of item: player-retrieve  <item: str>")
+    @commands.command(name="player-retrieve", help="Cancel shop listing of item")
     async def player_retrieve(self, ctx: Context, *, item: str):
         try:
             if not item in self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["player_shop"]:

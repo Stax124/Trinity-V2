@@ -6,9 +6,9 @@ import time
 
 print("running")
 mention = "<@292312596260978688>"
-bot_mention = "<@784059560972779540>"
-role = "<@&749188696313561119>"
-prefix = "_"
+bot_mention = "<@872779777461850152>"
+role = "<@&827843353370165268>"
+prefix = "!"
 
 
 def run(command: str, pause: int = 5, usePrefix: bool = True):

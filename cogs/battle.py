@@ -13,16 +13,15 @@ from discord.ext.commands.context import Context
 
 
 class Battle(commands.Cog):
-    "Owner commands"
+    "Kill and conquer"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
     @commands.command(name="manpower", help="Show manpower of user", aliases=["mp", "power"])
-    async def manpower(self, ctx: Context, user: discord.Member = None):
+    async def manpower(self, ctx: Context, _user: discord.Member = None):
         try:
-            if user == None:
-                user = ctx.author
+            user: discord.Member = ctx.author if _user == None else _user
 
             manpower = int(self.bot.configs[ctx.guild.id]['players'][user.id]['manpower'] + (self.bot.configs[ctx.guild.id]['players'][user.id]
                                                                                              ['manpower']*self.bot.configs[ctx.guild.id]['players'][ctx.author.id]['stats']['warlord']*self.bot.configs[ctx.guild.id]['warlord_rate']))
@@ -39,11 +38,8 @@ class Battle(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="attack", help="Automatized battle system: attack <player_manpower: int> ")
+    @commands.command(name="attack", help="Automatized battle system")
     async def attack(self, ctx: Context, player_manpower: int, enemy_manpower: int, hours: float, player_support: int = 0, enemy_support: int = 0, mention: bool = True, skip_colonization: bool = False, income: int = 0, income_role: discord.Role = None):
-        global time
-        global asyncs_on_hold
-
         if self.bot.configs[ctx.guild.id]["block_asyncs"]:
             await ctx.send("Function blocked by 'hold-asyncs'")
             return
@@ -155,7 +151,7 @@ class Battle(commands.Cog):
         if iteration == 4 and player_manpower > 0 and enemy_manpower > 0:
             msg = "❌ Out of rolls"
             colour = 0xff0000
-            
+
             if skip_colonization == False:
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] += estart
         elif player_manpower > 0 and enemy_manpower == 0:
@@ -164,20 +160,21 @@ class Battle(commands.Cog):
 
             if self.bot.configs[ctx.guild.id]["allow_attack_income"]:
                 if income_role != None:
+                    _income_role: discord.Role = income_role
                     if income >= 200000:
                         ctx.send("Income too high, ask admin to add it")
                     else:
-                        self.bot.configs[ctx.guild.id]["income"][income_role.id] += income
+                        self.bot.configs[ctx.guild.id]["income"][_income_role.id] += income
         elif player_manpower == 0 and enemy_manpower > 0:
             msg = "❌ You lost"
             colour = 0xff0000
-            
+
             if skip_colonization == False:
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] += estart
         else:
             msg = "❓ Tie ❓"
             colour = 0xffff00
-            
+
             if skip_colonization == False:
                 self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["balance"] += estart
 

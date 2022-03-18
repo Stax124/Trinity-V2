@@ -65,4 +65,4 @@ async def levelup_check(bot: AutoShardedBot,ctx: Context):
         await ctx.send(embed=embed)
         logging.debug(
             f"{ctx.author.display_name} is now level {bot.configs[ctx.guild.id]['players'][player.id]['level']}")
-        await levelup_check(ctx)
+        await levelup_check(bot, ctx)

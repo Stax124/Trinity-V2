@@ -5,7 +5,7 @@ from discord.ext.commands.bot import AutoShardedBot
 
 
 class Fallback(commands.Cog):
-    "Fallback for config"
+    "Fallback settings"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
@@ -15,7 +15,7 @@ class Fallback(commands.Cog):
         logging.info("Loading fallback")
         return json.load(open("./core/fallback.json", "r"))
 
-    @commands.command(name="fallback-load")
+    @commands.command(name="fallback-load", help="Loads fallback config if it was updated")
     @commands.is_owner()
     async def load_fallback(self, ctx: commands.Context):
         self.bot.fallback = self._load_fallback()

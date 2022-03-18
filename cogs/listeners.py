@@ -13,8 +13,6 @@ class Listeners(commands.Cog):
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    # region Default
-
     @commands.Cog.listener()
     async def on_connect(self):
         logging.info("Bot sucessfully connected to Discord servers")
@@ -38,14 +36,6 @@ class Listeners(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_remove(self, guild: discord.Guild):
         await self.bot.change_presence(activity=Activity(name=f"{len(self.bot.guilds)} servers", type=ActivityType.watching))
-
-    # endregion
-
-    # region Trinity specific
-
-    # TODO - Port all Trinity specific listeners here
-
-    # endregion
 
 
 def setup(bot):

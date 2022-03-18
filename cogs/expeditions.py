@@ -17,14 +17,14 @@ from discord.ext.commands.context import Context
 
 
 class Expeditions(commands.Cog):
-    "Expedition commands"
+    "Quests, rewards and more rewards"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
     @commands.command(name="add-expedition", help="Add new expedition: add-expedition [-h] [--manpower MANPOWER] [--level LEVEL] [--chance CHANCE] [--common COMMON] [--uncommon UNCOMMON] [--rare RARE] [--epic EPIC] [--legendary LEGENDARY] [--xp XP] [--description DESCRIPTION] name cost hours")
     @commands.has_permissions(administrator=True)
-    async def add_mission(self, ctx: Context, *querry):
+    async def add_mission(self, ctx: Context, *_querry):
         fparser = argparse.ArgumentParser()
         fparser.add_argument("name", type=str)
         fparser.add_argument("cost", type=int)
@@ -40,7 +40,7 @@ class Expeditions(commands.Cog):
         fparser.add_argument("--xp", type=int, default=0)
         fparser.add_argument("--description", default=None)
 
-        querry = shlex.split(" ".join(querry))
+        querry = shlex.split(" ".join(_querry))
 
         try:
             fargs = fparser.parse_args(querry)
@@ -99,7 +99,7 @@ class Expeditions(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="remove-expedition", help="Remove expedition: remove-mission <mission: str>")
+    @commands.command(name="remove-expedition", help="Remove expedition: remove-missiom")
     @commands.has_permissions(administrator=True)
     async def remove_mission(self, ctx: Context, mission: str):
         try:
@@ -127,7 +127,7 @@ class Expeditions(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="expeditions", help="List of expeditions: expeditions")
+    @commands.command(name="expeditions", help="List of expeditions")
     async def missions(self, ctx: Context):
         try:
             e_list = []
@@ -179,7 +179,7 @@ class Expeditions(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="expedition", help="Start an expedition: expedition <name: str>", aliases=["expedition-start"])
+    @commands.command(name="expedition", help="Start an expedition", aliases=["expedition-start"])
     async def mission_start(self, ctx: Context, expedition_name: str, mention: bool = True):
         global time
         global asyncs_on_hold

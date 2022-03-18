@@ -1,7 +1,6 @@
 import argparse
 import logging
 import os
-import sys
 
 import discord
 from discord.ext import commands
@@ -12,6 +11,11 @@ from discord.ext.commands.errors import (ExtensionAlreadyLoaded,
 from pretty_help import PrettyHelp
 
 from core.config import Configuration
+
+import rich.traceback
+import coloredlogs
+
+rich.traceback.install()
 
 # region Parser
 parser = argparse.ArgumentParser(
@@ -34,9 +38,18 @@ loglevels = {
     "CRITICAL:": logging.CRITICAL
 }
 
-logging.basicConfig(
-    level=loglevels[args.logging], handlers=[logging.FileHandler(args.file, "w", 'utf-8'), logging.StreamHandler(sys.stdout)] if args.file else [logging.StreamHandler(sys.stdout)], format='%(levelname)s | %(asctime)s | %(name)s |->| %(message)s', datefmt=r"%H:%M:%S"
+coloredlogs.install(
+    level=loglevels[args.logging], fmt='%(levelname)s | %(asctime)s | %(name)s |->| %(message)s', datefmt=r"%H:%M:%S"
 )
+
+if args.file:
+    logging.info("Logging to file: {}".format(args.file))
+    logger = logging.getLogger()
+    fh = logging.FileHandler(filename=args.file, mode="w", encoding='utf-8')
+    fh.setFormatter(logging.Formatter(
+        fmt='%(levelname)s | %(asctime)s | %(name)s |->| %(message)s'))
+    fh.setLevel(loglevels[args.logging])
+    logger.addHandler(fh)
 # endregion
 
 default_extensions = ["cogs."+i.replace(".py", "")
@@ -67,7 +80,7 @@ class Bot(AutoShardedBot):
 bot = Bot()
 
 
-@bot.command(name="reload")
+@bot.command(name="reload", help="Reloads an extension")
 @commands.is_owner()
 async def reload_extension(ctx: Context, extension: str):
     try:
@@ -85,7 +98,7 @@ async def reload_extension(ctx: Context, extension: str):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="load")
+@bot.command(name="load", help="Loads an extension")
 @commands.is_owner()
 async def load_extension(ctx: Context, extension: str):
     try:
@@ -108,9 +121,9 @@ async def load_extension(ctx: Context, extension: str):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="unload")
+@bot.command(name="unload", help="Unloads an extension")
 @commands.is_owner()
-async def reload_extension(ctx: Context, extension: str):
+async def unload_extension(ctx: Context, extension: str):
     try:
         bot.unload_extension("cogs."+extension)
         logging.info(f"{extension} unloaded")
@@ -131,9 +144,9 @@ async def reload_extension(ctx: Context, extension: str):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="reload-all")
+@bot.command(name="reload-all", help="Reloads all extensions")
 @commands.is_owner()
-async def reload_extension(ctx: Context):
+async def reload_all_extensions(ctx: Context):
     all_extensions = ["cogs."+i.replace(".py", "")
                       for i in os.listdir("cogs") if i.endswith(".py")]
 

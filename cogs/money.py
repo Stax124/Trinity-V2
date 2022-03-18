@@ -13,14 +13,13 @@ from discord.utils import get
 
 
 class Money(commands.Cog):
-    "Listeners for bot, feel free to add your own"
+    "No need to look here, we both know that you don't have any"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="leaderboard", help="Show da leaderboard: l, lb, leaderboard", aliases=["lb", "l"])
+    @commands.command(name="leaderboard", help="Show the leaderboard", aliases=["lb", "l"])
     async def leaderboard(self, ctx: Context):
-        logging.debug("Displaying leaderboard")
         try:
             players = {}
             for player in self.bot.configs[ctx.guild.id]["players"]:
@@ -65,12 +64,12 @@ class Money(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="reset-money", help="Reset balance of target: reset-money <user: discord.Member>", pass_context=True)
+    @commands.command(name="reset-money", help="Reset balance of target", pass_context=True)
     @commands.has_permissions(administrator=True)
     async def reset_money(self, ctx: Context, member: discord.Member):
         logging.debug(f"Resetting balance of {member.display_name}")
         try:
-            if member.id in ctx.guild.members:
+            if member in ctx.guild.members:
                 self.bot.configs[ctx.guild.id]["players"][member.id]["balance"] = 0
                 logging.debug(f"Resetting {member}'s balance")
                 embed = discord.Embed(
@@ -95,7 +94,7 @@ class Money(commands.Cog):
 
         self.bot.configs[member.guild.id].save()
 
-    @commands.command(name="remove-money", help="Remove money from target: remove-money <user: discord.Member> <value: integer>", pass_context=True)
+    @commands.command(name="remove-money", help="Remove money from target: remove-money", pass_context=True)
     @commands.has_permissions(administrator=True)
     async def remove_money(self, ctx: Context, member: discord.Member, balance: int):
         logging.debug(f"Removing {balance} from {member.display_name}")
@@ -128,7 +127,7 @@ class Money(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="add-money", help="Add money to target: add-money <user: discord.Member> <value: integer>", pass_context=True)
+    @commands.command(name="add-money", help="Add money to target", pass_context=True)
     @commands.has_permissions(administrator=True)
     async def add_money(self, ctx: Context, *message):
         try:
@@ -183,7 +182,7 @@ class Money(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="buy", help="Spend money to make more money bruh: buy <type: string> <value: integer>")
+    @commands.command(name="buy", help="Spend money to make more money")
     async def buy_upgrade(self, ctx: Context, type: str, value: int = 1):
         logging.debug(f"{ctx.author.display_name} is buying {type} * {value}")
         try:
@@ -328,7 +327,7 @@ class Money(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="pay", help="Send money to target: pay <user: discord.Member> <value: int>")
+    @commands.command(name="pay", help="Send money to target")
     async def user_pay(self, ctx: Context, member: discord.Member, balance: int):
         logging.debug(
             f"Transfering {balance} from {ctx.author.display_name} to {member.display_name}")
@@ -380,7 +379,7 @@ class Money(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="balance", help="Show your balance or more likely, empty pocket: b, bal, balance, money", aliases=["bal", "b", "money"])
+    @commands.command(name="balance", help="Show your balance or more likely, empty pocket", aliases=["bal", "b", "money"])
     async def bal(self, ctx: Context):
         logging.debug(f"Displaying balance of {ctx.author.display_name}")
         try:
@@ -395,7 +394,7 @@ class Money(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="shop", help="Show shop")
+    @commands.command(name="shop", help="Shows shop")
     async def shop(self, ctx: Context):
         try:
             e_list = []

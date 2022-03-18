@@ -12,10 +12,12 @@ from discord.ext.commands.context import Context
 
 
 class Work(commands.Cog):
+    "No pain, no gain"
+
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="work", help="What are you doing, make some money!: work")
+    @commands.command(name="work", help="What are you doing, make some money!")
     async def user_work(self, ctx: Context):
         logging.debug(f"{ctx.author.display_name} executing work")
         try:

@@ -5,12 +5,12 @@ from discord.ext.commands.context import Context
 
 
 class Management(commands.Cog):
-    "Example structure, feel free to remove/replace/extend it"
+    "Show them who's the boss"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="kick")
+    @commands.command(name="kick", help="Kick a user")
     @commands.has_permissions(administrator=True)
     async def kick_member(self, ctx: Context, member: discord.Member, *,  reason: str = ""):
         await member.kick(reason=reason)
@@ -19,7 +19,7 @@ class Management(commands.Cog):
         embed.set_author(name="Kick", icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command(name="ban")
+    @commands.command(name="ban", help="Ban a user")
     @commands.has_permissions(administrator=True)
     async def ban_member(self, ctx: Context, member: discord.Member, *, reason: str = ""):
         await member.ban(reason=reason)

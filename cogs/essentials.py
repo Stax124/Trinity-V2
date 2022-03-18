@@ -13,12 +13,10 @@ from discord.ext.commands.context import Context
 
 
 class Essentials(commands.Cog):
-    "Esential functions"
+    "Esential functionality"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
-
-    # region Default
 
     @commands.command(name="purge", help="Delete messages from channel")
     @commands.has_permissions(administrator=True)
@@ -32,20 +30,18 @@ class Essentials(commands.Cog):
         if role == None:
             self.bot.configs[ctx.guild.id]["autorole"] = None
         else:
-            _id = role.id
+            _role: discord.Role = role
+            _id = _role.id
             self.bot.configs[ctx.guild.id]["autorole"] = _id
 
         self.bot.configs[ctx.guild.id].save()
 
         embed = discord.Embed(
-            color=0xffff00, description=f"Auto-role set to {role.mention if role != None else 'None'}")
+            color=0xffff00, description=f"Auto-role set to {_role.mention if role != None else 'None'}")
         embed.set_author(name="Auto-role", icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed)
 
-    # endregion
-
-    # region Trinity specific
-    @commands.command(name="members", help="Show all members: members")
+    @commands.command(name="members", help="Show all members")
     async def members(self, ctx: Context):
         try:
             e_list = []
@@ -80,7 +76,7 @@ class Essentials(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="roles", help="Show all roles: roles")
+    @commands.command(name="roles", help="Show all roles")
     async def roles(self, ctx: Context):
         try:
             e_list = []
@@ -115,7 +111,7 @@ class Essentials(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="roll", help="Roll the dice of x sides: roll <maximal-value: integer>")
+    @commands.command(name="roll", help="Roll the dice of x sides")
     async def roll(self, ctx: Context, value: int):
         try:
             embed = discord.Embed(
@@ -128,7 +124,7 @@ class Essentials(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="time", help="Shows formated time: time")
+    @commands.command(name="time", help="Shows formated time")
     async def time(self, ctx: Context):
         try:
             embed = discord.Embed(
@@ -143,7 +139,7 @@ class Essentials(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="limits", help="Shows upgrade limits for your account: limits")
+    @commands.command(name="limits", help="Shows upgrade limits for your account")
     async def limits(self, ctx: Context):
         try:
             embed = discord.Embed(
@@ -156,7 +152,7 @@ class Essentials(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="upgrades", help="Shows the current number of upgrades bought: upgrades")
+    @commands.command(name="upgrades", help="Shows the current number of upgrades bought")
     async def upgrades(self, ctx: Context):
         try:
             embed = discord.Embed(
@@ -170,7 +166,7 @@ class Essentials(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="role", help="Your roles: role")
+    @commands.command(name="role", help="Your roles")
     async def role(self, ctx: Context):
         try:
             msg = ""
@@ -187,8 +183,6 @@ class Essentials(commands.Cog):
         except:
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
-
-    # endregion
 
 
 def setup(bot):

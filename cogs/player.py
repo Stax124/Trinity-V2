@@ -8,12 +8,12 @@ from discord.ext.commands.context import Context
 
 
 class Player(commands.Cog):
-    "Owner commands"
+    "Become a lvl.99 Boss"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="talents", help="Show list of skills: talents", aliases=["stats"])
+    @commands.command(name="talents", help="Show list of skills", aliases=["stats"])
     async def stats(self, ctx: Context):
         try:
             player = self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["stats"]
@@ -64,7 +64,7 @@ class Player(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="levelup", help="Spend skillpoints for talents: levelup <skill> [value=1]")
+    @commands.command(name="levelup", help="Spend skillpoints for talents")
     async def skill_add(self, ctx: Context, skill: str, value: int = 1):
         try:
             if skill.lower() in self.bot.configs[ctx.guild.id]["players"][ctx.author.id]["stats"]:
@@ -103,7 +103,7 @@ class Player(commands.Cog):
 
         self.bot.configs[ctx.guild.id].save()
 
-    @commands.command(name="skillpoints", help="Number of your skillpoints: skillpoints")
+    @commands.command(name="skillpoints", help="Number of your skillpoints")
     async def skillpoints(self, ctx: Context):
         try:
             embed = discord.Embed(

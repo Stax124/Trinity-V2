@@ -10,12 +10,12 @@ from discord.ext.commands.context import Context
 
 
 class Config(commands.Cog):
-    "Owner commands"
+    "Stuff that will f*ck up your server when you use it incorrectly"
 
     def __init__(self, bot: AutoShardedBot):
         self.bot = bot
 
-    @commands.command(name="config-save", help="Save configuration file: config-save", pass_context=True)
+    @commands.command(name="config-save", help="Save configuration file for current server: config-save", pass_context=True)
     @commands.has_permissions(administrator=True)
     async def config_save(self, ctx: Context):
         try:
@@ -47,12 +47,12 @@ class Config(commands.Cog):
             print(traceback.format_exc())
             await ctx.send(traceback.format_exc())
 
-    @commands.command(name="config", help="Output config directory: config <path> [path]...", pass_context=True)
+    @commands.command(name="config", help="Browse config: config <path> [path]...", pass_context=True)
     @commands.has_permissions(administrator=True)
-    async def config_(self, ctx: Context, *message):
+    async def config(self, ctx: Context, *_message):
         logging.debug(f"{ctx.author.display_name} requested config")
         try:
-            message = list(message)
+            message = list(_message)
             for i in range(len(message)):
                 if re.findall(re.compile(r"[<][@][!][0-9]+[>]"), message[i]) != []:
                     pattern = re.compile(r'[0-9]+')
@@ -139,11 +139,11 @@ class Config(commands.Cog):
 
     @commands.command(name="set", help="Change values in config. You rather know what ya doin!: set <path> [path]... { = | < | > } <value>", pass_context=True)
     @commands.has_permissions(administrator=True)
-    async def set(self, ctx: Context, *message):
+    async def set(self, ctx: Context, *_message):
         logging.debug(
-            f"{ctx.author.display_name} is setting something in config: {message}")
+            f"{ctx.author.display_name} is setting something in config: {_message}")
         try:
-            message = list(message)
+            message = list(_message)
             for i in range(len(message)):
                 if re.findall(re.compile(r"[<][@][!][0-9]+[>]"), message[i]) != []:
                     pattern = re.compile(r'[0-9]+')
@@ -178,7 +178,7 @@ class Config(commands.Cog):
                             message[i] = _role.id
                     break
 
-            current = self.bot.configs[ctx.guild.id]
+            current = self.bot.configs[ctx.guild.id].config
             mode = None
             try:
                 last = message[message.index("=") - 1]
@@ -190,6 +190,8 @@ class Config(commands.Cog):
                 except:
                     last = message[message.index("<") - 1]
                     mode = "remove"
+
+            logging.debug(f"last: {last}; mode: {mode}")
             for word in message:
                 if word == last:
                     try:
