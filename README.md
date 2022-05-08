@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Stax124/Trinity-V2">
-    <img src="img/Trinity-V2.png" alt="Logo" height="200">
+    <img src="img/Trinity-V2-poster.png" alt="Logo" width="100%">
   </a>
 
 <h2 align="center">Trinity V2</h2>

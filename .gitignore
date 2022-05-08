@@ -3,3 +3,4 @@ config/
 *.pyc
 .mypy_cache/
 logs/
+Pipfile.lock
