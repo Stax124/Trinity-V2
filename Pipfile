@@ -14,3 +14,8 @@ DiscordUtils = ">=1.3.4"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+build = "docker build -t \"trinity-v2-alpine\" ."
+tag = "docker tag trinity-v2-alpine:latest stax124/trinity-v2:alpine"
+push = "docker push stax124/trinity-v2:alpine"
